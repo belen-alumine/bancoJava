@@ -31,7 +31,7 @@ public class Main {
         banco.acreditar(eduardo, cuentaEduardo, 500000);
         System.out.println("Nuevo saldo: " + cuentaEduardo.getSaldo());
         // Cliente selecciona cuenta y realiza un pago.
-        //eduardo.pagar(500);
+        eduardo.pagar(500);
 
 
     }
