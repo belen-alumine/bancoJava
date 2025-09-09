@@ -1,21 +1,33 @@
-import java.util.List;
-
-public class Cuenta implements Operacion{
+public abstract class Cuenta implements Operacion{
     public TipoCuenta tipoCuenta;
     public int nro;
-    public Persona titular;
+    public Cliente titular;
     public Moneda moneda;
     public int saldo;
+    public Entidad entidad;
 
-    public Cuenta(TipoCuenta tipoCuenta, Persona titular, Moneda moneda) {
-        this.tipoCuenta = tipoCuenta;
-        this.nro = generarNumeroDeCuenta();
+    public Cuenta(Cliente titular, Moneda moneda, Entidad entidad) {
         this.titular = titular;
         this.moneda = moneda;
+        this.entidad = entidad;
+        this.nro = generarNumeroDeCuenta();
+    }
+
+    @Override
+    public void pagar(Cuenta cuenta, int monto, Cuenta cuentaReceptora) {
+        Entidad bancoReceptor = cuentaReceptora.getEntidadBancaria();
+        Cliente clienteReceptor = cuentaReceptora.getTitular();
+        this.descontarSaldo(cuenta, monto);
+        entidad.realizarDeposito(cuentaReceptora, monto);
     }
 
     public int generarNumeroDeCuenta() {
-        return  (int) (Math.random() * 100 + 1);
+        assert titular != null;
+        String dni = String.valueOf(titular.getDni());
+        int cantidad = titular.getCuentas().size() + 1;
+        String numeroCuentaStr = dni + cantidad;
+
+        return Integer.parseInt(numeroCuentaStr);
     }
 
     public void setSaldo(int saldo) {
@@ -34,7 +46,7 @@ public class Cuenta implements Operacion{
         return nro;
     }
 
-    public Persona getTitular() {
+    public Cliente getTitular() {
         return titular;
     }
 
@@ -42,12 +54,11 @@ public class Cuenta implements Operacion{
         return moneda;
     }
 
-    @Override
-    public void pagar(int monto) {
-        this.descontarSaldo(monto);
+    public void descontarSaldo(Cuenta cuenta, int monto) {
+        this.saldo -= monto;
     }
 
-    public void descontarSaldo(int monto) {
-        this.saldo -= monto;
+    public Entidad getEntidadBancaria() {
+        return entidad;
     }
 }

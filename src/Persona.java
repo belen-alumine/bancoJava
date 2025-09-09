@@ -9,7 +9,6 @@ public abstract class Persona {
     public int dni;
     public LocalDate nacimiento;
     public String telefono;
-    List<Entidad> bancos = new ArrayList<Entidad>();
 
 
     public Persona(String nombre, String apellido, int dni, LocalDate nacimiento) {
@@ -32,5 +31,7 @@ public abstract class Persona {
     public void setApellido(String apellido) {
         this.apellido = apellido;
     }
-
+    public int getDni() {
+        return dni;
+    }
 }
