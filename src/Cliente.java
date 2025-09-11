@@ -6,7 +6,6 @@ public class Cliente extends Persona implements Operacion {
     String pass;
     //HashMap<String, String> credenciales = new HashMap<>();
     Set<Cuenta> cuentas = new HashSet<Cuenta>();
-    List<Movimiento> movimientos = new ArrayList<Movimiento>();
     Cuenta cuentaSeleccionada;
     Cuenta cuentaDefault;
 
@@ -18,8 +17,10 @@ public class Cliente extends Persona implements Operacion {
     @Override
     public void pagar(Cuenta cuenta, int monto, Cuenta cuentaReceptora) {
         int saldo = cuenta.getSaldo();
+        Entidad bancoPropio = cuenta.getEntidadBancaria();
         if (saldo > monto) {
             cuenta.pagar(cuenta, monto, cuentaReceptora);
+            bancoPropio.registrarMovimiento(monto, cuenta, cuentaReceptora);
         }
         if (monto > saldo) {
             throw new SaldoInsuficienteException("Saldo insuficiente");
@@ -35,6 +36,22 @@ public class Cliente extends Persona implements Operacion {
     @Override
     public void registrarMovimiento(Movimiento movimiento) {
 
+    }
+
+    @Override
+    public void bloquearCuenta(Cuenta cuenta) {
+        Entidad banco = cuenta.getEntidadBancaria();
+        banco.bloquearCuenta(cuenta);
+    }
+
+    @Override
+    public List<Movimiento> obtenerMovimientos(Cuenta cuenta) {
+        return cuenta.getMovimientos();
+    }
+
+    @Override
+    public Movimiento buscarMovimientoPorFecha(Cuenta cuenta, LocalDate fecha) {
+        return cuenta.buscarMovimientoPorFecha(cuenta, fecha);
     }
 
     public Set<Cuenta> getCuentas() {
@@ -92,6 +109,8 @@ public class Cliente extends Persona implements Operacion {
             System.out.println(cuenta.toString());
         }
     }
+
+
    /*
     public String generarId() {
         int min = 100000;

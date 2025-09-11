@@ -61,9 +61,31 @@ public class Main {
         Cuenta cuentaSecEduardo = eduardo.getCuentaSeleccionada();
         eduardo.seleccionarCuentaPorID(234442222);
         System.out.println("Cuenta seleccionada: " + eduardo.getCuentaSeleccionada().getNro());
-        eduardo.pagar(cuentaSecEduardo, 7000, cuentaPepe);
+        // eduardo.pagar(cuentaSecEduardo, 7000, cuentaPepe); // error sin saldo
+
+        // Ver movimientos realizados por el cliente - iteración, set, list, etc.
+        List<Movimiento> movsEduardo = new ArrayList<>();
+        movsEduardo = eduardo.obtenerMovimientos(cuentaEduardo);
+        System.out.println("Cant de movimientos de eduardo: " + movsEduardo.size());
+        LocalDate fechaBusq = LocalDate.of(2025, 9, 11);
+        // eduardo.buscarMovimientoPorFecha(cuentaSecEduardo, fechaBusq);  // error, no encuentra mov
+        Movimiento movDeHoy = eduardo.buscarMovimientoPorFecha(cuentaEduardo, fechaBusq);
+        String detalleMov = movDeHoy.getDetalle();
+        System.out.println("----------------------------------------");
+        System.out.println(detalleMov);
+        System.out.println("----------------------------------------");
 
 
+        // Imprimir comprobante de movimientos - salida
+        FileIO.escribirArchivo(movDeHoy);  // Guarda el comprobante en un comprobante.txt
+        Archivo.buscarArchivo(); // busca el archivo de recién (modificar para que sea dinámico)
+        FileIO.leerArchivo(); // lee el archivo que se creó recién. (modificar para que sea dinámico)
+
+        // Bloquear cuenta - streams
+
+        // Intentar transferir a una cuenta bloqueada - excepciones
+
+        //
     }
 
 }

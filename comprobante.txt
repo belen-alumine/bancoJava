@@ -1,0 +1,6 @@
+Movimiento
+Titular: Gonzales Eduardo 
+Cuenta: XXXX-2221
+Monto: 3900
+Destino: Argento Pepe XXXX-1291
+Concepto: OTRO

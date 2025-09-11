@@ -1,3 +1,6 @@
+import java.time.LocalDate;
+import java.util.List;
+
 public class CajaAhorro extends Cuenta{
 
     public CajaAhorro(Cliente titular, Moneda moneda, Entidad entidad) {
@@ -12,6 +15,11 @@ public class CajaAhorro extends Cuenta{
 
     @Override
     public void registrarMovimiento(Movimiento movimiento) {
+
+    }
+
+    @Override
+    public void bloquearCuenta(Cuenta cuenta) {
 
     }
 }

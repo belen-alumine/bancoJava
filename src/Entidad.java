@@ -1,10 +1,10 @@
+import java.time.LocalDate;
 import java.util.*;
 
 public class Entidad implements Operacion{
     String nombreBanco;
     Set<Cliente> clientes = new HashSet<Cliente>();
     Set<Cuenta> cuentas = new HashSet<Cuenta>();
-    List<Movimiento> movimientos = new ArrayList<Movimiento>();
     //HashMap<String, String> credenciales = new HashMap<>();
 
     public Entidad(String nombreBanco, Set<Cliente> clientes) {
@@ -19,12 +19,37 @@ public class Entidad implements Operacion{
 
     @Override
     public void registrarMovimiento(int monto, Cuenta cuenta, Cuenta cuentaReceptora) {
-
+        Movimiento movimiento = new Movimiento(monto, cuenta, cuentaReceptora);
+        cuenta.getMovimientos().add(movimiento);
     }
 
     @Override
     public void registrarMovimiento(Movimiento movimiento) {
 
+    }
+
+    @Override
+    public void bloquearCuenta(Cuenta cuenta) {
+        int idCuenta = cuenta.getNro();
+        Cliente cliente = cuenta.getTitular();
+        cliente.seleccionarCuentaPorID(idCuenta);
+        Cuenta cuentaCliente = cliente.getCuentaSeleccionada();
+        cuentas.stream()
+                .filter(c -> c.getNro() == cuentaCliente.getNro())
+                .forEach(c -> c.setEstadoDeCuenta(EstadoDeCuenta.BLOQUEADA));
+
+
+        cuentaCliente.setEstadoDeCuenta(EstadoDeCuenta.BLOQUEADA);
+    }
+
+    @Override
+    public List<Movimiento> obtenerMovimientos(Cuenta cuenta) {
+        return List.of();
+    }
+
+    @Override
+    public Movimiento buscarMovimientoPorFecha(Cuenta cuenta, LocalDate fecha) {
+        return null;
     }
 
     String getNombre() {
